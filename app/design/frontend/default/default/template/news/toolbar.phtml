@@ -1,0 +1,48 @@
+
+<?php if($this->getCollection()->getSize()): ?>
+    <table class="pager" cellspacing="0" style="float:left;width:100%;margin-bottom:20px;">
+        <tr>
+            <td>
+            <?php if($this->getLastPageNum()>1): ?>
+                <?php echo $this->__('%s to %s of %s total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
+            <?php else: ?>
+               <?php echo $this->__('Show %s Item(s)', $this->getTotalNum()) ?>
+            <?php endif; ?>
+            </td>
+            <?php if($this->getLastPageNum()>1): ?>
+            <td>
+                <strong><?php echo $this->__('Page:') ?></strong>
+                <ol>
+                <?php if (!$this->isFirstPage()): ?>
+                    <li>
+                        <a href="<?php echo $this->getPreviousPageUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_left.gif') ?>" alt="<?php echo $this->__('Previous') ?>"/></a>
+                    </li>
+                <?php endif ?>
+                <?php foreach ($this->getPages() as $_page): ?>
+                    <?php if ($this->isPageCurrent($_page)): ?>
+                        <li><span class="on"><?php echo $_page ?></span></li>
+                    <?php else:	?>
+                        <li><a href="<?php echo $this->getPageUrl($_page) ?>"><?php echo $_page ?></a></li>
+                    <?php endif ?>
+                <?php endforeach;; ?>
+                <?php if (!$this->isLastPage()): ?>
+                    <li>
+                        <a href="<?php echo $this->getNextPageUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_right.gif') ?>" alt="<?php echo $this->__('Next') ?>"/></a>
+					</li>
+                <?php endif ?>
+                </ol>
+            </td>
+            <?php endif; ?>
+            <td class="a-right">
+                <?php echo $this->__('Show') ?> <select onchange="setLocation(this.value)">
+                <?php foreach ($this->getAvailableLimit() as  $_key=>$_limit): ?>
+                    <option value="<?php echo $this->getLimitUrl($_key) ?>"<?php if($this->isLimitCurrent($_key)): ?> selected="selected"<?php endif ?>>
+                        <?php echo $_limit ?>
+                    </option>
+                <?php endforeach; ?>
+                </select> <?php echo $this->__('per page') ?>
+            </td>
+        </tr>
+    </table>
+<?php endif ?>
+

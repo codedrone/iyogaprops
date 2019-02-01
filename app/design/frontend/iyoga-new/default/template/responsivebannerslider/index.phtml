@@ -1,0 +1,127 @@
+<?php    $slide_status=$this->getResponsivebannersliderEnabled();   ?>
+<?php    $slide_speed=$this->getResponsivebannersliderSpeed();   ?>
+<?php    $slide_type=$this->getResponsivebannerSlideType(); ?>
+<?php    $slide_BannerLoop=$this->getResponsivebannerBannerLoop(); ?>
+<?php    $slide_PauseOnhover=$this->getResponsivebannerPauseOnhover(); ?>
+
+
+<?php
+// Module Enable/Dsable Function.......................................
+if($slide_status==1){ ?>
+
+
+
+<?php
+// Module type Function.......................................
+if($slide_type=='1'){ ?>
+
+
+
+
+<?php /*?><?php  $cssurl =  str_replace('index.php/','',$this->getUrl());?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssurl.'skin/frontend/iyoga-new/default/responsiveslider/css/generic-nav.css'; ?>" media="all">
+<link rel="stylesheet" type="text/css" href="<?php echo $cssurl.'skin/frontend/iyoga-new/default/responsiveslider/css/grid12.css'; ?>" media="all">
+<script type="text/javascript" src="<?php echo $cssurl.'skin/frontend/iyoga-new/default/responsiveslider/js/jquery-1.js'; ?>"></script>
+<script type="text/javascript" src="<?php echo $cssurl.'skin/frontend/iyoga-new/default/responsiveslider/js/jquery-noconflict.js'; ?>"></script>
+<script type="text/javascript" src="<?php echo $cssurl.'skin/frontend/iyoga-new/default/responsiveslider/js/jquery_004.js'; ?>"></script>
+<script type="text/javascript" src="<?php echo $cssurl.'skin/frontend/iyoga-new/default/responsiveslider/js/jquery_003.js'; ?>"></script> 
+<?php */?>
+<!-- BEGIN GOOGLE ANALYTICS CODEs -->
+ 
+ 
+
+<div class="container">
+    <div id="owl-slider" class="owl-carousel owl-theme">
+
+<?php 
+$connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+$prefix = Mage::getConfig()->getTablePrefix();
+$tblname=$prefix.'mksresponsivebannerslider';
+$sql = $connection->query("select * from $tblname where status='0'  ORDER BY imageorder ASC ");
+while($row1 = $sql->fetch())
+{
+$title = $row1["title"];
+$description = $row1["description"]; 
+$urlx = $row1["image"]; 
+$media_url =  Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+$imgurl=$media_url.$urlx;
+$url = $row1["url"]; 
+?>
+<div class="item">
+<a href="<?php echo $url; ?>">
+<img src="<?php echo $imgurl; ?>" alt="<?php echo $title; ?>" title="<?php echo $title; ?>">
+</a></div>
+
+<?php } ?>
+</div>
+</div>
+ 
+
+<!-- BEGIN GOOGLE ANALYTICS CODEs -->
+<script type="text/javascript">
+jQuery.noConflict();
+
+    jQuery(document).ready(function() {
+     
+      jQuery("#owl-slider").owlCarousel({
+     
+          autoPlay: 5000,
+          navigation : true, // Show next and prev buttons
+          slideSpeed : 300,
+          stopOnHover: true,
+          paginationSpeed : 400,
+          navigationText: ["<i class='fa fa-chevron-left'></i>","<i class='fa fa-chevron-right'></i>"],
+          singleItem:true
+     
+          // "singleItem:true" is a shortcut for:
+          // items : 1, 
+          // itemsDesktop : false,
+          // itemsDesktopSmall : false,
+          // itemsTablet: false,
+          // itemsMobile : false
+      
+     
+      });
+     
+    });
+</script>
+
+<!--<script type="text/javascript">
+//<![CDATA[
+//jQuery(function($) {
+responsivemks = jQuery.noConflict(); 
+responsivemks(window).load(function(){
+responsivemks('.the-slideshow').flexslider({
+namespace:"",
+animation:'fade',
+easing:'easeInOutCirc',
+useCSS:	false,
+animationLoop:<?php echo $slide_BannerLoop; ?>,
+smoothHeight: true,
+slideshowSpeed:<?php echo $slide_speed; ?>,
+animationSpeed:	600,
+pauseOnHover:<?php echo $slide_PauseOnhover; ?>
+});
+});
+//]]>
+</script>    -->
+
+
+
+
+
+
+<?php
+// Module type 1 Function.......................................End
+ } ?>
+
+
+ 
+
+<?php } else { ?>
+
+<h1 style="color:red;">Enable ( Responsive banner ) Module via Admin = System -> Configuration-> MKS RESPONSIVE BANNER-> General Setting </h1>
+
+ <?php } ?>
+ 
+ 

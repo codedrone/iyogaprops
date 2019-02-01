@@ -1,0 +1,473 @@
+<div class="menu-side-col">
+    <?php echo $this->getChildHtml('menu_switcher') ?>
+
+    <?php if ($this->getMenu()): ?>
+        <div class="content-header">
+            <?php echo $this->getChildHtml('add_menu_button') ?>
+            <?php echo $this->getChildHtml('add_item_button') ?>
+        </div>
+    <?php endif ?>
+
+    <?php if ($this->getMenu()): ?>
+    <div class="tree-holder">
+        <div id="tree-div" style="width:100%; overflow:auto;"></div>
+    </div>
+
+    <div class="tree-holder">
+        <div id="tree-category-div" style="width:100%; overflow:auto;"></div>
+    </div>
+    <?php endif ?>
+</div>
+
+<script type="text/javascript">
+var tree;
+
+function reRenderTree(event, switcher)
+{
+    if (tree && event) {
+        var obj        = event.target;
+        var newStoreId = obj.value * 1;
+
+        var url = tree.switchTreeUrl;
+
+        new Ajax.Request(url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ), {
+            parameters : {form_key: FORM_KEY},
+            method     : 'post',
+            onComplete : function(transport) {
+                var response = eval('(' + transport.responseText + ')');
+                if (!response['parameters']) {
+                    return false;
+                }
+
+                _renderNewTree(response, storeParam);
+            }
+        });
+    } else {
+        _renderNewTree();
+    }
+}
+
+function _renderNewTree(config, storeParam)
+{
+    if (!config) {
+        var config = defaultLoadTreeParams;
+    }
+    if (tree) {
+        tree.purgeListeners();
+        tree.el.dom.innerHTML = '';
+    }
+    tree = new Ext.tree.TreePanel.Enhanced('tree-div', newTreeParams);
+    tree.loadTree(config, true);
+
+    var selectedNode = tree.getNodeById(config.parameters.item_id);
+    if (selectedNode) {
+        tree.currentNodeId = config.parameters.item_id;
+    }
+    tree.selectCurrentNode();
+
+    var url = tree.editUrl;
+
+    if (selectedNode) {
+        url = url + 'id/' + config.parameters.item_id;
+    }
+
+    updateContent(url);
+}
+
+Ext.lib.Event.getTarget = function(e) {
+    var ee = e.browserEvent || e;
+    return ee.target ? Event.element(ee) : null;
+};
+
+Ext.tree.TreePanel.Enhanced = function(el, config) {
+    Ext.tree.TreePanel.Enhanced.superclass.constructor.call(this, el, config);
+};
+
+Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
+    loadTree: function(config, firstLoad)
+    {
+        var parameters = config['parameters'];
+        var data       = config['data'];
+
+        if ((typeof parameters['root_visible']) != 'undefined') {
+            this.rootVisible = parameters['root_visible'] * 1;
+        }
+
+        var root = new Ext.tree.TreeNode(parameters);
+
+        this.nodeHash = {};
+        this.setRootNode(root);
+
+        if (firstLoad) {
+            this.addListener('click', this.itemClick);
+            this.addListener('beforenodedrop', itemMove.createDelegate(this));
+        }
+
+        this.loader.bildMenuTree(root, data);
+        this.el.dom.innerHTML = '';
+
+        this.render();
+        if (parameters['expanded']) {
+            this.expandAll();
+        } else {
+            root.expand();
+        }
+
+        var selectedNode = this.getNodeById(parameters['item_id']);
+        if (selectedNode) {
+            this.currentNodeId = parameters['item_id'];
+        }
+        this.selectCurrentNode();
+    },
+
+    selectCurrentNode: function()
+    {
+        if (this.currentNodeId) {
+            var selectedNode = this.getNodeById(this.currentNodeId);
+            this.getSelectionModel().select(selectedNode);
+        }
+    },
+
+    itemClick: function(node, e)
+    {
+        var baseUrl        = '<?php echo $this->getEditUrl() ?>';
+        var urlExt         = 'id/' + node.id + '/';
+        var url            = parseSidUrl(baseUrl, urlExt);
+        this.currentNodeId = node.id;
+
+        if (!this.useAjax) {
+            setLocation(url);
+            return;
+        }
+
+        updateContent(url);
+    }
+});
+
+
+Ext.onReady(function() {
+    menuLoader = new Ext.tree.TreeLoader({
+       dataUrl: '<?php echo $this->getLoadTreeUrl() ?>'
+    });
+
+    menuLoader.createNode = function(config) {
+        var node;
+        var _node = Object.clone(config);
+        if (config.children && !config.children.length) {
+            delete(config.children);
+            node = new Ext.tree.AsyncTreeNode(config);
+        } else {
+            node = new Ext.tree.TreeNode(config);
+        }
+
+        return node;
+    };
+
+    menuLoader.bildMenuTree = function(parent, config)
+    {
+        if (!config) return null;
+
+        if (parent && config && config.length){
+            for (var i = 0; i < config.length; i++) {
+                var node;
+                var _node = Object.clone(config[i]);
+                if (_node.children && !_node.children.length) {
+                    delete(_node.children);
+                    node = new Ext.tree.AsyncTreeNode(_node);
+                } else {
+                    node = new Ext.tree.TreeNode(config[i]);
+                }
+                parent.appendChild(node);
+                node.loader = node.getOwnerTree().loader;
+                if (_node.children) {
+                    this.bildMenuTree(node, _node.children);
+                }
+            }
+        }
+    };
+
+    menuLoader.buildHash = function(node)
+    {
+        var hash = {};
+
+        hash = this.toArray(node.attributes);
+
+        if (node.childNodes.length>0 || (node.loaded==false && node.loading==false)) {
+            hash['children'] = new Array;
+
+            for (var i = 0, len = node.childNodes.length; i < len; i++) {
+                if (!hash['children']) {
+                    hash['children'] = new Array;
+                }
+                hash['children'].push(this.buildHash(node.childNodes[i]));
+            }
+        }
+
+        return hash;
+    };
+
+    menuLoader.toArray = function(attributes) {
+        var data = {form_key: FORM_KEY};
+        for (var key in attributes) {
+            var value = attributes[key];
+            data[key] = value;
+        }
+
+        return data;
+    };
+
+    menuLoader.on("beforeload", function(treeLoader, node) {
+        treeLoader.baseParams.id       = node.attributes.id;
+        treeLoader.baseParams.store    = node.attributes.store;
+        treeLoader.baseParams.form_key = FORM_KEY;
+    });
+
+    menuLoader.on("load", function(treeLoader, node, config) {
+        varienWindowOnload();
+    });
+
+    if ((typeof varienStoreSwitcher)!='undefined') {
+        varienStoreSwitcher.storeSelectorClickCallback = reRenderTree;
+    }
+
+    newTreeParams = {
+        animate         : true,
+        loader          : menuLoader,
+        enableDD        : true,
+        containerScroll : true,
+        selModel        : new Ext.tree.CheckNodeMultiSelectionModel(),
+        rootVisible     : 1,
+        useAjax         : <?php echo $this->getUseAjax() ?>,
+        switchTreeUrl   : '<?php echo $this->getSwitchTreeUrl() ?>',
+        editUrl         : '<?php echo $this->getEditUrl() ?>',
+        currentNodeId   : <?php echo (int) $this->getCurrentItemId() ?>
+    };
+
+    <?php if ($this->getMenu()): ?>
+    defaultLoadTreeParams = {
+        parameters : {
+            text        : '<?php echo $this->getMenu()->getName() ?>',
+            draggable   : false,
+            allowDrop   : true,
+            id          : 'menu-' + <?php echo (int) $this->getMenu()->getId() ?>,
+            item_id     : 'menu-' + <?php echo (int) $this->getMenu()->getId() ?>,
+            expanded    : <?php echo (int) $this->getIsWasExpanded() ?>,
+            icon        : '<?php echo Mage::getDesign()->getSkinUrl('menu/images/menu.png') ?>'
+        },
+        data : <?php echo $this->getTreeJson() ?>
+    };
+
+    reRenderTree();
+    <?php endif ?>
+});
+
+
+function addNew(url, isRoot)
+{
+    if (tree) {
+        if (isRoot) {
+            tree.currentNodeId = 0;
+        }
+
+        url += 'parent_id/' + tree.currentNodeId;
+    }
+
+    updateContent(url);
+}
+
+function itemMove(obj)
+{
+    var data = {id: obj.dropNode.id, form_key: FORM_KEY};
+
+    data.point = obj.point;
+    switch (obj.point) {
+        case 'above' :
+            data.pid = obj.target.parentNode.id;
+            data.paid = obj.dropNode.parentNode.id;
+            if (obj.target.previousSibling) {
+                data.aid = obj.target.previousSibling.id;
+            } else {
+                data.aid = 0;
+            }
+            break;
+        case 'below' :
+            data.pid = obj.target.parentNode.id;
+            data.aid = obj.target.id;
+        break;
+        case 'append' :
+            data.pid = obj.target.id;
+            data.paid = obj.dropNode.parentNode.id;
+            if (obj.target.lastChild) {
+                data.aid = obj.target.lastChild.id;
+            } else {
+                data.aid = 0;
+            }
+        break;
+        default :
+            obj.cancel = true;
+            return obj;
+    }
+
+    var success = function(o) {
+        try {
+            if(o.responseText){
+                if(o.responseText === 'SUCCESS') {
+                    editForm.refreshPath();
+                } else {
+                    alert(o.responseText);
+                }
+            }
+        } catch(e) {}
+    };
+
+    var failure = function(o) {
+        try {
+            console.log(o.statusText);
+        } catch (e2) {
+            alert(o.statusText);
+        }
+        location.reload();
+    };
+
+    var pd = [];
+    for(var key in data) {
+        pd.push(encodeURIComponent(key), "=", encodeURIComponent(data[key]), "&");
+    }
+    pd.splice(pd.length-1,1);
+    new Ajax.Request(
+        '<?php echo $this->getMoveUrl() ?>',
+        {
+            method:     'POST',
+            parameters: pd.join(""),
+            onSuccess : success,
+            onFailure : failure
+        }
+    );
+}
+
+function updateContent(url, params, refreshTree) {
+    if (!params) {
+        params = {};
+    }
+    if (!params.form_key) {
+        params.form_key = FORM_KEY;
+    }
+
+    toolbarToggle.stop();
+
+    var menuContainer = $('menu-edit-container');
+    var messagesContainer = $('messages');
+    var thisObj = this;
+    new Ajax.Request(url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ), {
+        parameters:  params,
+        evalScripts: true,
+        onComplete: function () {
+            setTimeout(function() {
+                try {
+                    if (refreshTree) {
+                        thisObj.refreshTreeArea();
+                    }
+                    toolbarToggle.start();
+                } catch (e) {
+                    alert(e.message);
+                };
+            }, 25);
+        },
+        onSuccess: function(transport) {
+            try {
+                if (transport.responseText.isJSON()) {
+                    var response = transport.responseText.evalJSON();
+                    var needUpdate = true;
+                    if (response.error) {
+                        alert(response.message);
+                        needUpdate = false;
+                    }
+                    if(response.ajaxRedirect) {
+                        setLocation(response.ajaxRedirect);
+                        needUpdate = false;
+                    }
+                    if (needUpdate){
+                        if (response.content){
+                            $(menuContainer).update(response.content);
+                        }
+                        if (response.messages){
+                            $(messagesContainer).update(response.messages);
+                        }
+                    }
+                } else {
+                    $(menuContainer).update(transport.responseText);
+                }
+            } catch (e) {
+                $(menuContainer).update(transport.responseText);
+            }
+        }
+    });
+}
+
+
+function refreshTreeArea(transport)
+{
+    if (tree && window.editingItemBreadcrumbs) {
+        editingItemBreadcrumbs = window.editingItemBreadcrumbs;
+        if (tree.nodeForDelete) {
+            var node = tree.getNodeById(tree.nodeForDelete);
+            tree.nodeForDelete = false;
+
+            if (node) {
+                node.parentNode.removeChild(node);
+                tree.currentNodeId = false;
+            }
+        } else if (tree.addNodeTo) {
+            for (var i = 0; i < editingItemBreadcrumbs.length; i++) {
+                var node = tree.getNodeById(editingItemBreadcrumbs[i].id);
+                if (!node) {
+                    var node = new Ext.tree.AsyncTreeNode(editingItemBreadcrumbs[i]);
+                    node.loaded = true;
+                    tree.currentNodeId = node.id;
+
+                    if (i > 0) {
+                        var parent = tree.getNodeById(editingItemBreadcrumbs[i - 1].id);
+                        parent.appendChild(node);
+
+                        if (parent.expanded) {
+                            tree.selectCurrentNode();
+                        } else {
+                            var timer;
+                            parent.expand();
+                            var f = function(){
+                                if(parent.expanded) {
+                                    clearInterval(timer);
+                                    tree.selectCurrentNode();
+                                }
+                            };
+                            timer = setInterval(f, 200);
+                        }
+                    } else {
+                        var parent = tree.getNodeById(tree.addNodeTo);
+                        parent.appendChild(node);
+                        tree.selectCurrentNode();
+                    }
+                }
+            }
+
+            tree.addNodeTo = false;
+        }
+
+        for (var i = 0; i < editingItemBreadcrumbs.length; i++) {
+            var node = tree.getNodeById(editingItemBreadcrumbs[i].id);
+            if (node) {
+                node.setText(editingItemBreadcrumbs[i].text);
+            }
+        }
+    }
+}
+
+function displayLoadingMask()
+{
+   var loaderArea = $$('#html-body .wrapper')[0]; // Blocks all page
+    Position.clone($(loaderArea), $('loading-mask'), {offsetLeft:-2});
+    toggleSelectsUnderBlock($('loading-mask'), false);
+    Element.show('loading-mask');
+}
+
+</script>

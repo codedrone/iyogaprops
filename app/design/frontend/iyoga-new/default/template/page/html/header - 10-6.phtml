@@ -1,0 +1,311 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<div class="header-container">
+   
+    <div class="header">
+       <div class="container">
+       <!--
+        <?php /*if ($this->getIsHomePage()):?>
+        <h1 class="logo"><strong><?php// echo $this->getLogoAlt() ?></strong><a href="<?php// echo $this->getUrl('') ?>" title="<?php //echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
+        <?php else:?>
+        <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
+        <?php endif?>
+        <div class="quick-access">
+            <?php echo $this->getChildHtml('topSearch') ?>
+            <p class="welcome-msg"><?php echo $this->getChildHtml('welcome') ?> <?php echo $this->getAdditionalHtml() ?></p>
+            <?php echo $this->getChildHtml('topLinks') ?>
+            <?php echo $this->getChildHtml('store_language')*/ ?>
+        </div> -->
+        <?php echo $this->getChildHtml('topContainer'); ?>
+        
+<!-- Header Top Column       -->
+<div class="row">
+    <div id="topbar">
+                  <!--=========try==========-->
+
+                <!-- <div class="row">
+    <div class="col-lg-8 col-md-8">
+    </div>
+    
+    <div class="col-lg-4 col-md-4 abg">
+       <div class="icon_wrap">
+<a href="https://www.facebook.com/iyogaprops" target="_blank"><img src="http://iyogaprops.com.au/skin/frontend/iyoga-new/default/images/fb.png" alt="social"></a>
+                <a href="http://twitter.com/iyogaprops" target="_blank"><img src="http://iyogaprops.com.au/skin/frontend/iyoga-new/default/images/twitter.png" alt=""></a>
+                <a href="https://imgrum.me/user/iyogaprops/1914319602" target="_blank"><img src="http://iyogaprops.com.au/skin/frontend/iyoga-new/default/images/instagram.png" alt=""></a>
+  </div>
+    </div>
+</div>-->
+
+
+                  <!--=========try==========-->
+
+                  
+                  
+                  
+                  <div class="col-xs-12 col-sm-12 hidden-md hidden-lg t-barmobile">
+                     
+                      <button type="button" class="navbar-toggle visible-sm visible-xs" data-toggle="collapse" data-target="#nav-mobilei">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                    
+                    <div class="abg">
+                        <div class="icon_wrap">
+                        <a href="https://www.facebook.com/iyogaprops" target="_blank"><i class="fa fa-facebook"></i></a>
+                        <a href="http://twitter.com/iyogaprops" target="_blank"><i class="fa fa-twitter"></i></a>
+                        <a href="https://imgrum.me/user/iyogaprops/1914319602" target="_blank"><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="m-search"><i class="fa fa-search"></i></div>
+                    <div class="cart-right">
+                        <a href="<?php echo Mage::getBaseUrl(); ?>checkout/cart">
+                        <span>
+                        <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                        </span>
+                        <span class="badge"> <?php
+                        $count = $this->helper('checkout/cart')->getSummaryCount();  //get total items in cart
+                        if($count==0)
+                        {
+                        echo $this->__('0',$count);
+                        }
+                        if($count==1)
+                        { 
+                        echo $this->__($count);
+                        }
+                        if($count>1)
+                        {
+                        echo $this->__($count);
+                        }
+                        ?></span></a>
+                    </div>  
+                  </div>
+                   
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="logo">
+                            <a href="<?php echo Mage::getBaseUrl();?>"> <img src="<?php echo $this->getSkinUrl(); ?>images/logo.png
+
+                               " alt="" /> </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 hidden-lg hidden-md ">
+                        <div class="input-grou t-m">
+
+                            <?php echo $this->getChildHtml('topSearch') ?>
+
+                        </div>
+                    </div>
+                    
+             <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 order colum2 ">
+                <div class="row">
+                <div class="col-lg-12 col-md-12  col-xs-12 colum5 hidden-xs hidden-sm">
+            <!--=======-->
+
+            <!--=======-->
+            <li>
+            <div class="abg">
+            <div class="icon_wrap">
+            <a href="https://www.facebook.com/iyogaprops" target="_blank"><i class="fa fa-facebook"></i></a>
+            <a href="http://twitter.com/iyogaprops" target="_blank"><i class="fa fa-twitter"></i></a>
+            <a href="https://imgrum.me/user/iyogaprops/1914319602" target="_blank"><i class="fa fa-instagram"></i></a>
+            </div>
+            </div>
+            </li>
+
+            <li>
+            <div class="search-bar"> 
+            <div class="input-grou">
+            <?php echo $this->getChildHtml('topSearch') ?>
+
+            </div>
+            <div class="cart-right">
+            <a href="<?php echo Mage::getBaseUrl(); ?>checkout/cart">
+            <span>
+            <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+            </span>
+            <span class="badge"> <?php
+            $count = $this->helper('checkout/cart')->getSummaryCount();  //get total items in cart
+            if($count==0)
+            {
+            echo $this->__('0',$count);
+            }
+            if($count==1)
+            { 
+            echo $this->__($count);
+            }
+            if($count>1)
+            {
+            echo $this->__($count);
+            }
+            ?></span></a>
+            </div>  
+            
+
+                </div></li>
+
+<!--
+    <div class="abg">
+    <div class="icon_wrap">
+    <a href="https://www.facebook.com/iyogaprops" target="_blank"><i class="fa fa-facebook"></i></a>
+    <a href="http://twitter.com/iyogaprops" target="_blank"><i class="fa fa-twitter"></i></a>
+    <a href="https://imgrum.me/user/iyogaprops/1914319602" target="_blank"><i class="fa fa-instagram"></i></a>
+    </div>
+    </div>
+-->
+
+            </div> 
+                </div>
+                <div class="row">    
+             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 order colum2">
+               <span class="order-top">Australia's leading yoga equipment supplier</span>
+
+               </div>
+                </div>                           
+                            
+     
+                        
+                                           
+                                                                                 
+             
+    </div>
+    </div>
+</div>
+<!--  Main Navigation-->
+        <div class="row">
+    
+           <div class="col-lg-12 col-md-12 hidden-sm hidden-xs">
+                <div class="main-navigation">
+                    <?php echo $this->getChildHtml('topMenu') ?>
+                </div>
+            </div>
+            <div class="col-sm-12 col-xs-12 hidden-md hidden-lg">
+         
+<!--
+                <button type="button" class="navbar-toggle visible-sm " data-toggle="collapse" data-target="#nav-mobilei">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+-->
+         
+            <?php echo $this->getChildHtml('topmenumobile') ?>
+            </div>
+    
+        </div>
+        <!--  Main Navigation-->
+        
+        
+    </div>
+    <?php
+// IF WE ARE ON HOMEPAGE
+if(
+Mage::getSingleton('cms/page')->getIdentifier() == 'home' &&
+Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms'
+) : ?>
+
+       <div class="support-tabs hidden-xs hidden-sm">
+             <div class="container"> 
+             <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="tabs">
+                        <a href="<?php echo Mage::getBaseUrl(); ?>faq"><i class="fa fa-plane"></i><span>Fast economical delivery</span></a>
+                    </div>    
+              </div>
+                
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="tabs">
+                        <a href="mailto:info@iyogaprops.com.au"><img src="<?php echo $this->getSkinUrl(); ?>images/return.png" alt=""><span>Email inquiries and quotes</span></a>
+                    </div>    
+               </div>
+               
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                   <div class="tabs tabsl">
+                        <a href="#" title="1300 760 108 and +61 3 9687 5210"><i class="fa fa-phone"></i><span>Phone inquiries 9am - 5pm M-F</span></a>
+                    </div>    
+               </div>
+               <div class="clearfix"></div>
+               </div>
+        </div>
+        <?php endif; ?>
+<?php
+// IF WE ARE ON HOMEPAGE
+if(
+Mage::getSingleton('cms/page')->getIdentifier() == 'home' &&
+Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms'
+) : ?>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('slider_main')->toHtml(); ?>
+<script type="text/javascript">
+jQuery.noConflict();
+    jQuery(document).ready(function() {
+     jQuery("#owl-slider").owlCarousel({
+          navigation : false, // Show next and prev buttons
+          slideSpeed : 300,
+          paginationSpeed : 400,
+          singleItem:true,
+          autoPlay: true
+          // "singleItem:true" is a shortcut for:
+          // items : 1, 
+          // itemsDesktop : false,
+          // itemsDesktopSmall : false,
+          // itemsTablet: false,
+          // itemsMobile : false
+     
+      });
+     
+    });
+    
+</script>
+<?php endif; ?>
+
+      
+      <script type="text/javascript">
+          jQuery.noConflict();
+		jQuery(document).ready(function(){
+			
+        jQuery('.m-search').click(function(){
+                jQuery('.t-m').slideToggle();
+                                                  
+                        });
+				
+				
+		});
+      	
+      </script>
+       
+</div>
+
+</div>
+
+
+
+
+
+
+
+

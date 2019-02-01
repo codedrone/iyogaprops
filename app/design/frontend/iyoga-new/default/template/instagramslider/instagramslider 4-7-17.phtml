@@ -1,0 +1,64 @@
+<?php
+	$data = '';
+	$data = Mage::registry('feedbackOst', $dataInsta);
+	if(empty($data)){
+		$data = Mage::helper('instagramslider')->getConfigData();
+	}
+	
+//	echo '<pre>';
+//	print_r($data); die;
+	
+?>
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,400italic,300italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'Ost_Instagramslider/css/owl.carousel.css'; ?>">
+<link rel="stylesheet" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'Ost_Instagramslider/css/owl.theme.default.min.css'; ?>">
+<script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'Ost_Instagramslider/js/jquery-1.10.2.min.js';?>"></script>
+<script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'Ost_Instagramslider/js/owl.carousel.min.js'; ?>"></script>
+
+<h3><?php echo $data['title']; ?></h3>
+<div class="owl-carousel">
+	<?php  foreach ($data['images'] as $image) { ?>
+		<div class="item">
+			 <img src="<?php echo $image['image']; ?>" alt="<?php echo $image['title']; ?>" class="img-responsive" />
+		</div>
+	 <?php } ?>
+</div>
+
+<script>
+jQuery(document).ready(function() {
+	var owl = jQuery('.owl-carousel');
+	owl.owlCarousel({
+	loop: true,
+	items:<?php echo $data['item']; ?>,
+	autoplay:<?php echo $data['autoplay']; ?>,
+	autoplayTimeout:<?php echo $data['autoplayspeed']; ?>,
+	nav:<?php echo $data['navigation']; ?>,
+	navText:['<','>'],
+	margin:<?php echo $data['margin']; ?>,
+	autoplayHoverPause:true,
+    stagePadding:0,
+    dots:<?php echo $data['pagination']; ?>,
+    rewindnav:<?php echo $data['rewindnav']; ?>,
+	responsiveClass: true,
+	responsive: {
+	  0: {
+		items: 1
+	  },
+	  600: {
+		items: 3
+	  },
+	  1000: {
+		items: 5
+	  }
+	}
+  });
+  owl.on('mousewheel', '.owl-stage', function (e) {
+    if (e.deltaY>0) {
+        owl.trigger('next.owl');
+    } else {
+        owl.trigger('prev.owl');
+    }
+    e.preventDefault();
+});
+});
+</script>	

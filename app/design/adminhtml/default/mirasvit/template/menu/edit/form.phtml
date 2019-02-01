@@ -1,0 +1,175 @@
+<div class="content-header">
+    <h3 class="icon-head"><?php echo $this->getHeader() ?></h3>
+    <p class="content-buttons form-buttons">
+        <?php echo $this->getChildHtml('delete_button') ?>
+        <?php echo $this->getChildHtml('save_button') ?>
+    </p>
+</div>
+
+<?php echo $this->getTabsHtml() ?>
+
+<form id="edit_form" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
+    <div class="no-display">
+        <input type="hidden" name="isIframe" value="1" />
+        <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
+        <input type="hidden" name="active_tab_id" id="active_tab_id" value="" />
+    </div>
+    <div id="category_tab_content"></div>
+</form>
+<script type="text/javascript">
+<?php if($this->isAjax() && ($block = $this->getLayout()->getBlock('tabs')) && ($_tabsJsObject=$block->getJsObjectName())): ?>
+    <?php echo $_tabsJsObject ?>.moveTabContentInDest();
+    if (<?php echo $_tabsJsObject ?>.activeTab) {
+        $('active_tab_id').value = <?php echo $_tabsJsObject ?>.activeTab.id;
+    }
+    $('active_tab_id').tabsJsObject = <?php echo $_tabsJsObject ?>;
+<?php endif; ?>
+    editForm = new varienForm('edit_form');
+
+    editForm.submit= function (url) {
+        this.errorSections = $H({});
+        this.canShowError = true;
+        this.submitUrl = url;
+        if (this.validator && this.validator.validate()) {
+            if(this.validationUrl){
+                this._validate();
+            }
+            else{
+                if (this.isSubmitted) {
+                    return false;
+                }
+                this.isSubmitted = true;
+                this._submit();
+            }
+            displayLoadingMask();
+            return true;
+        }
+        return false;
+    };
+
+    editForm.refreshPath = function () {
+        categoryId = this.getItemId();
+
+        if (!categoryId) {
+            return false;
+        }
+
+        var refreshPathSuccess = function(transport) {
+            if (transport.responseText.isJSON()) {
+                response = transport.responseText.evalJSON()
+                if (response.error) {
+                    alert(response.message);
+                } else {
+                    if (editForm.getItemId() == response['id']) {
+                        editForm.setItemPath(response['path']);
+                    }
+                }
+            }
+        };
+
+        new Ajax.Request(
+                '<?php echo $this->getRefreshPathUrl() ?>',
+                {
+                    method      : 'POST',
+                    evalScripts : true,
+                    onSuccess   : refreshPathSuccess
+                }
+        );
+    };
+
+    editForm.getItemId = function () {
+        collection = $(this.formId).getInputs('hidden', 'general[id]');
+        if (collection.size() > 0) {
+            return collection.first().value;
+        }
+        return false;
+    };
+
+    function itemSubmit(url, useAjax) {
+        var activeTab = $('active_tab_id');
+
+        if (activeTab) {
+            if (activeTab.tabsJsObject && activeTab.tabsJsObject.activeTab) {
+                activeTab.value = activeTab.tabsJsObject.activeTab.id;
+            }
+        }
+
+        var params = {};
+        var fields = $('edit_form').getInputs();
+        for(var i = 0; i < fields.length; i++){
+            if (!fields[i].name) {
+                continue;
+            }
+            params[fields[i].name] = fields[i].getValue();
+        }
+
+        var itemId = params['id'] ? params['id'] : 0;
+        var isCreating = itemId == 0;
+        var path = params['path'].split('/');
+        var parentId = path.pop();
+        if (parentId == itemId) {
+            parentId = path.pop();
+        }
+
+        if (isCreating) {
+            if (!tree.currentNodeId) {
+                tree.currentNodeId = parentId;
+            }
+            tree.addNodeTo = parentId;
+        } else {
+            if (tree) {
+                var currentNode = tree.getNodeById(itemId);
+
+                if (currentNode) {
+                    if (parseInt(params['is_active'])) {
+                        var oldClass = 'no-active';
+                        var newClass = 'active';
+                    } else {
+                        var oldClass = 'active';
+                        var newClass = 'no-active';
+                    }
+
+                    Element.removeClassName(currentNode.ui.wrap.firstChild, oldClass);
+                    Element.addClassName(currentNode.ui.wrap.firstChild, newClass);
+                }
+            }
+        }
+        
+        varienGlobalEvents.clearEventHandlers('formSubmit');
+        varienGlobalEvents.fireEvent('formSubmit', editForm.formId);
+        editForm.submit();
+    }
+
+    function menuSubmit(url, useAjax)
+    {
+        var params = {};
+        var fields = $('edit_form').getElementsBySelector('input', 'select');
+        for(var i = 0; i < fields.length; i++) {
+            if (!fields[i].name) {
+                continue;
+            }
+            params[fields[i].name] = fields[i].getValue();
+        }
+
+        editForm.submit();
+    }
+
+    function itemDelete(url, useAjax, itemId)
+    {
+        if (confirm('<?php echo Mage::helper('menu')->__('Are you sure you want to delete this item?') ?>')){
+            if (useAjax){
+                tree.nodeForDelete = itemId;
+                updateContent(url, {}, true);
+            } else {
+                location.href = url;
+            }
+        }
+    }
+
+    function menuDelete(url, useAjax, itemId)
+    {
+        if (confirm('<?php echo Mage::helper('menu')->__('Are you sure you want to delete this item?') ?>')){
+            location.href = url;
+        }
+    }
+</script>

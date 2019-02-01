@@ -1,0 +1,71 @@
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss">
+                <name>menu/css/menu.css</name>
+            </action>
+            <action method="addJs"><script>jscolor/jscolor.js</script></action>
+        </reference>
+    </default>
+
+    <menu_adminhtml_menu_index>
+        <update handle="editor"/>
+
+        <reference name="left">
+            <block name="menu.tree" type="menu/adminhtml_menu_tree" template="menu/tree.phtml" />
+        </reference>
+
+        <reference name="content">
+            <block name="menu.edit"  type="menu/adminhtml_menu_edit" template="menu/edit.phtml" />
+        </reference>
+
+        <reference name="js">
+            <block type="core/template" template="catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js" />
+        </reference>
+    </menu_adminhtml_menu_index>
+
+    <menu_adminhtml_menu_couple>
+        <update handle="editor"/>
+
+        <reference name="content">
+            <block name="menu.edit"  type="menu/adminhtml_menu_tree" template="menu/couple_tree.phtml" />
+        </reference>
+
+        <reference name="js">
+            <block type="core/template" template="catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js" />
+        </reference>
+    </menu_adminhtml_menu_couple>
+
+    <menu_adminhtml_menu_edit>
+        <update handle="editor"/>
+
+        <reference name="left">
+            <block name="menu.tree" type="menu/adminhtml_menu_tree" template="menu/tree.phtml" />
+        </reference>
+
+        <reference name="content">
+            <block name="menu.edit"  type="menu/adminhtml_menu_edit" template="menu/edit.phtml" />
+        </reference>
+
+        <reference name="js">
+            <block type="core/template" template="catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js" />
+        </reference>
+    </menu_adminhtml_menu_edit>
+
+    <menu_adminhtml_item_edit>
+        <update handle="editor"/>
+
+        <reference name="left">
+            <block name="menu.tree" type="menu/adminhtml_menu_tree" template="menu/tree.phtml" />
+        </reference>
+
+        <reference name="content">
+            <block name="item.edit"  type="menu/adminhtml_item_edit" template="menu/item/edit.phtml" />
+        </reference>
+
+        <reference name="js">
+            <block type="core/template" template="catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js" />
+        </reference>
+    </menu_adminhtml_item_edit>
+
+</layout>

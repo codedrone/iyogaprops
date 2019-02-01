@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <instagramslider_index_index>
+        <reference name="footer.before">
+            <block type="instagramslider/instagramslider" name="instagramslider" template="instagramslider/instagramslider.phtml" >
+				<action method="setBlockId"><block_id>instagramsliderId</block_id></action>
+             </block>
+        </reference>
+        <reference name="head">
+			<action method="addItem"><type>skin_css</type><name>css/animate.min.css</name></action>
+		   <action method="addItem"><type>skin_js</type><name>js/owl.carousel.min.js</name></action>
+		   <action method="addItem"><type>skin_css</type><name>css/owl.carousel.css</name></action>
+		</reference>
+    </instagramslider_index_index>
+</layout>

@@ -1,0 +1,52 @@
+<?php if ($posts = $this->getRecent()): ?>
+
+    <div class="widget-latest">
+
+        <div class="title"><?php echo Mage::helper('blog')->__('Latest Posts'); ?></div>
+
+        <ul id="blog-slider" class="owl-carousal">
+
+            <?php foreach ($posts as $post): ?>
+
+                <li class="blog-home item">
+                <a href="<?php echo $post->getAddress(); ?>" ><?php echo $post->getTitle(); ?></a>
+               
+                
+                <?php $html_content = $post->getShortContent(); 
+$html_content = Mage::helper('cms')->getPageTemplateProcessor()->filter($html_content);
+echo $html_content ;?>
+                 
+                  <!--<div class="postContent"><?php // echo $post->getShortContent(); //Mage::helper('core/string')->truncate(, 150); ?></div>-->
+                   
+
+                   <div class="clearfix"></div>
+                    <a class="readm" href="<?php echo $post->getAddress(); ?>" ><?php echo "Read more" ?></a>
+
+                </li>
+
+            <?php endforeach; ?>
+
+        </ul>
+
+    </div>
+
+<?php endif; ?>
+
+
+<script type="text/javascript">
+    jQuery.noConflict();
+    jQuery(document).ready(function() {
+ 
+  jQuery("#blog-slider").owlCarousel({
+ 
+      autoPlay: 5000, //Set AutoPlay to 3 seconds
+ 
+      items : 2,
+      itemsDesktop : [1199,2],
+      itemsDesktopSmall : [979,1]
+ 
+  });
+  jQuery('.blog-home').find('.col-xs-12').addClass('no-padding');
+ 
+});
+</script>

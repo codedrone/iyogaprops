@@ -1,0 +1,17 @@
+<?php
+$helper = Mage::helper("eke_ogmeta");
+if (!$helper->isOgMetaEnabled()) {
+    return;
+}
+$siteName = $helper->getSiteName();
+$product = Mage::registry('current_product');
+?>
+
+<!-- OG META Product Data --> 
+<meta property="og:title" content="<?php echo $this->getLayout()->getBlock('head')->getTitle(); ?>" />
+<meta property="og:site_name" content="<?php echo $siteName; ?>" />
+<meta property="og:type" content="product" />
+<meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl(); ?>" />
+<meta property="og:image" content="<?php echo $product->getImageUrl(); ?>" />
+<meta property="og:description" content="<?php echo strip_tags($product->getDescription()); ?>" />
+

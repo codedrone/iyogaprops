@@ -1,0 +1,49 @@
+<div class="submit-form testimonial-form">
+	<h4 class="title"><?php echo $this->__('Write your testimonial') ?>:</h4>
+	<form id="testimonials-form" action="<?php echo $this->getUrl('testimonials/submit/save/')?>" method="post" enctype="multipart/form-data">
+		<ul class="form-list">
+            <li class="wide">
+				<label class="required" for="name"><em>*</em><?php echo $this->__('Name') ?></label>
+				<div class="input-box">
+					<input type="text" class="input-text required-entry" value="" title="Name" id="name" name="testimonial[name]">
+				</div>
+			</li>
+			<li class="wide">
+				<label class="required" for="email"><em>*</em><?php echo $this->__('Email') ?></label>
+				<div class="input-box">
+					<input type="text" class="input-text required-entry validate-email" value="" title="Email" id="email" name="testimonial[email]">
+				</div>
+            </li>
+			<li class="wide">
+				<label class="required" for="image"><em>*</em><?php echo $this->__('Upload Images') ?></label>
+				<div class="input-box">
+					<input type="file" class="" value="" title="Upload" id="image" name="testimonialmedia">
+				</div>
+            </li>
+            <li class="wide">
+                <label class="required" for="content"><em>*</em>Content</label>
+                <div class="input-box">
+                    <textarea rows="3" cols="5" class="required-entry input-text" title="Content" id="content" name="testimonial[content]"></textarea>
+                </div>
+            </li>
+            <li class="wide">
+                <?php echo $this->getChildHtml('captcha'); ?>
+            </li>
+        </ul>
+		<div class="box-actions">
+			<p class="required">* Required Fields</p>
+			<button class="button" title="Send" type="submit">
+				<span><span><?php echo $this->__('Send') ?></span></span>
+			</button>
+			<button class="button" title="Reset" type="reset">
+				<span><span><?php echo $this->__('Reset') ?></span></span>
+			</button>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+
+//<![CDATA[
+    var contactForm = new VarienForm('testimonials-form', true);
+//]]>
+</script>

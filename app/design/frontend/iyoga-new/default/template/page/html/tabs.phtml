@@ -1,0 +1,83 @@
+<?php
+
+// Product list tabs
+
+?>
+
+
+<div class="producttabs-wrap">
+<!--    <div class="container">-->
+        	<ul class="ptabs">
+		        <li class="tab-link " data-tab="tab-1">New Products</li>
+		        <li class="tab-link" data-tab="tab-2">On Sale</li>
+                <li class="tab-link current" data-tab="tab-3">Featured</li>
+            </ul>
+            
+            
+            
+            
+            
+            <div class="ptabs-wrap">
+                <div id="tab-1" class="tab-content ">
+                
+                
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('new_products')->toHtml(); ?>
+		
+            	</div>
+	            <div id="tab-2" class="tab-content">
+	            
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('on_sale')->toHtml(); ?>
+             
+	            </div>
+	            <div id="tab-3" class="tab-content current">
+	            
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('featured_product')->toHtml(); ?>
+            
+	            </div>
+
+            </div>
+<!--    </div>-->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    jQuery.noConflict();
+    
+   jQuery(document).ready(function(){
+	
+	jQuery('ul.ptabs li').click(function(){
+		var tab_id = jQuery(this).attr('data-tab');
+
+		jQuery('ul.ptabs li').removeClass('current');
+		jQuery('.tab-content').removeClass('current');
+
+		jQuery(this).addClass('current');
+        jQuery("#"+tab_id).addClass('current');
+		jQuery("#"+tab_id).fadeIn('slow');
+	})
+
+})
+</script>

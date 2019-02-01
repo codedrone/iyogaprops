@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ost_Instagramslider>
+        <active>true</active>
+        <codePool>community</codePool>
+        <version>1.9.2</version>
+        </Ost_Instagramslider>
+    </modules>
+</config>

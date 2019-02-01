@@ -1,0 +1,95 @@
+<?php
+/**
+ * Padoo Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0).
+ * It is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you are unable to obtain it through the world-wide-web, please send
+ * an email to info@padoo.com so we can send you a copy immediately.
+ *
+ * @category   Padoo
+ * @package    Padoo_Testimonial
+ * @copyright  Copyright (c) 2010-2012 Padoo Co. (http://padoo.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * side box template of testimonials
+ *
+ * @category   Padoo
+ * @package    Padoo_Testimonial
+ * @author     
+ */
+
+/**
+ * @var $this Padoo_Testimonial_Block_Testimonial
+ */
+ $storeId = Mage::app()->getStore(true)->getId();
+?>
+<?php $testimonials = $this->getTestimonials(); ?>
+<?php if ($testimonials->count() > 0): ?>
+	<div class="block testimonials-sidebar">
+		<div class="block-title">
+			<strong><span><?php echo $this->__('Testimonials') ?></span></strong>
+		</div>
+		<div class="block-content">
+			<div id="slideshow_testimonial">
+			<?php $last = count($testimonials);  ?>
+			<?php $i = 0;foreach ($testimonials as $testimonial): ?>
+				<?php 
+					$stores 	= $testimonial->getStoreId();
+					if(strpos($stores,$storeId) !== false || strpos($stores,0) !== false || $stores == 0){
+				?>
+				<?php if(!Mage::getStoreConfig('padoo_testimonial/general/effects') && $i > Mage::getStoreConfig('padoo_testimonial/general/num_sidebar')) break; ?>
+				<?php if($testimonial->getTestimonialSidebar()): ?>
+				<div class="sidebar-box <?php if($i++ == $last): ?>last<?php endif; ?>">
+					<?php if ($testimonial->getTestimonialImg()): ?>
+					<div class="sidebar-media" style="display:block">
+						<img alt="<?php echo $testimonial->getTestimonialName(); ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . $testimonial->getTestimonialImg() ?>" width="135" />
+					</div>
+					<?php endif; ?>
+					<div class="sidebar-text">
+						<?php 
+							$length = 100;
+							$des = $this->stripTags($testimonial->getTestimonialText()); 
+							$des = strlen($des) > $length ? substr($des,0, $length) .' ...' : $des;
+							echo $des;
+						?>
+					</div>
+					<div class="sidebar-name">
+						<?php if(Mage::getStoreConfig('padoo_testimonial/general/display_email')): ?>
+							<p><?php echo $testimonial->getTestimonialEmail() ?></p>
+						<?php endif; ?>
+						<?php if(Mage::getStoreConfig('padoo_testimonial/general/display_datetime')): ?>
+							<?php echo $testimonial->getTestimonialDate() ?> - 
+						<?php endif; ?>
+						<?php echo $testimonial->getTestimonialName(); ?>
+					</div>
+				</div>
+				<?php endif; ?>
+				<?php } ?>
+			<?php $i++;endforeach; ?>
+			</div>
+			<div class="actions">
+				<a href="<?php echo $this->getUrl('testimonials'); ?>"><?php echo $this->__('View All Testimonials'); ?></a>
+			</div>
+		</div>
+	</div>
+	<?php if(Mage::getStoreConfig('padoo_testimonial/general/effects')): ?>
+	<script type="text/javascript">
+	var effect_slide_testimonial = "<?php echo Mage::getStoreConfig('padoo_testimonial/general/effects_type'); ?>";
+	var effect_time_testimonial = "<?php echo Mage::getStoreConfig('padoo_testimonial/general/time_effect') ? Mage::getStoreConfig('padoo_testimonial/general/time_effect') : 0 ?>" * 1000;
+	jQuery(document).ready(function() {
+	   jQuery('#slideshow_testimonial').cycle({
+			//fade, fadeZoom, cover, uncover, shuffle, zoom, wipe, toss, turnDown, turnUp, scrollDown, scrollUp .
+			fx: effect_slide_testimonial,
+			timeout:  effect_time_testimonial		
+		});
+	});
+	</script>
+	<?php endif; ?>
+
+<?php endif;?>

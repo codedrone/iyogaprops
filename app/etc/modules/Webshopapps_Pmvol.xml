@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Webshopapps_Pmvol>
+			<active>true</active>
+			<codePool>community</codePool>
+			<depends>
+                <Webshopapps_Wsacommon/>
+                <Webshopapps_Productmatrix/>
+            </depends>
+		</Webshopapps_Pmvol>
+	</modules>
+</config>

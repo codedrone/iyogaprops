@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <placeholders>
+        <menu_menu>
+            <block>menu/menu</block>
+            <placeholder>menu_menu</placeholder>
+            <container>Mirasvit_Menu_Model_Cache_Menu</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </menu_menu>
+    </placeholders>
+</config>

@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * SAGIPL
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * 
+ * @category   	SAGIPL
+ * @package	Lavi_News
+ * @copyright  	Copyright (c) 2014 SAGIPL. (http://www.sagipl.com/)
+ * @license	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Free Shipping Offer Message
+ *
+ * @category	SAGIPL
+ * @package	Lavi_News
+ * @author	Navneet <navneet.kshk@gmail.com>
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="footer_links">
+            <action method="addLink" translate="label title" module="lavi_news" ifconfig="news/view/enabled">
+                <label>News</label>
+                <url>news</url>
+                <title>News</title>
+                <prepare>true</prepare>
+            </action>
+        </reference>
+		<reference name="left">
+			<block type="lavi_news/sidebar" name="sidebar">
+				<action method="setTemplate" module="lavi_news" ifconfig="news/view/showinleft">
+					<template>lavi/news/sidebar.phtml</template>
+				</action>
+			</block>
+		</reference>
+		<reference name="right">
+			<block type="lavi_news/sidebar" name="sidebar">
+				<action method="setTemplate" module="lavi_news" ifconfig="news/view/showinright">
+					<template>lavi/news/sidebar.phtml</template>
+				</action>
+			</block>
+		</reference>
+    </default>
+
+    <lavi_news_index_index translate="label">
+        <label>News Page</label>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-right.phtml</template>
+            </action>
+            <action method="setHeaderTitle" translate="title" module="lavi_news">
+                <title>Site News</title>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="lavi_news/list" name="news.list" template="lavi/news/list.phtml">
+                <block type="page/html_pager" name="news.list.pager" as="news_list_pager" />
+            </block>
+        </reference>
+    </lavi_news_index_index>
+
+    <lavi_news_index_view translate="label">
+        <label>News Item Page</label>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-right.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="lavi_news/item" name="news.item" template="lavi/news/item.phtml" />
+        </reference>
+    </lavi_news_index_view>
+</layout>

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <checkout_onepage_index>
+        <reference name="root">
+            <action method="setTemplate" ifconfig="onestepcheckout/general/enabled"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addItem" ifconfig="onestepcheckout/general/enabled"><type>skin_js</type><name>onestepcheckout/js/onestepcheckout.js</name><params/></action>
+            <action method="addCss" ifconfig="onestepcheckout/general/enabled"><stylesheet>onestepcheckout/css/onestepcheckout.css</stylesheet></action>
+            <block type="core/html_calendar" name="head.calendar" as="calendar" output="toHtml" template="onestepcheckout/onepage/delivery_date/js/calendar.phtml"/>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem" ifconfig="onestepcheckout/general/enabled"><type>skin_js</type><name>onestepcheckout/js/osc-calendar-setup.js</name><params/></action>
+        </reference>
+        <reference name="content">
+            <action method="setHeaderTitle" translate="title" module="checkout"><title>Onestepcheckout</title></action>
+            <action method="unsetChild" ifconfig="onestepcheckout/general/enabled"><name>checkout.onepage</name></action>
+            <block type="onestepcheckout/onepage" name="onestepcheckout.onepage">
+                <action method="setTemplate" ifconfig="onestepcheckout/general/enabled">
+                    <template>onestepcheckout/onestepcheckout.phtml</template>
+                </action>
+                <block type="onestepcheckout/onepage" name="onestepcheckout.onepage.billing" as="billingx" template="onestepcheckout/onepage/billing.phtml"/>
+                <block type="onestepcheckout/onepage" name="onestepcheckout.onepage.shipping" as="shippingx" template="onestepcheckout/onepage/shipping.phtml"/>
+                    <block type="onestepcheckout/onepage_shipping_method_available" name="onestepcheckout.onepage.shipping_method.available" as="availablex" template="onestepcheckout/onepage/shipping_method/available.phtml"/>
+                    <block type="onestepcheckout/onepage" name="onestepcheckout.onepage.shipping_method.additional" as="additionalx" template="onestepcheckout/onepage/shipping_method/additional.phtml"/>
+                <block type="checkout/onepage_payment_methods" name="onestepcheckout.payment.methods" as="methodsx" template="onestepcheckout/onepage/payment/methods.phtml">
+                    <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+                </block>
+                    <block type="checkout/onepage_review_info" name="onestepcheckout.onepage.review.info" as="infox" template="onestepcheckout/onepage/review/info.phtml" />
+                    <block type="onestepcheckout/onepage" name="onestepcheckout.onepage.agreements" as="agreementsx" template="onestepcheckout/onepage/agreements.phtml"/>
+                    <block type="onestepcheckout/onepage/coupan" name="onestepcheckout.onepage.coupan" as="coupanx" template="onestepcheckout/onepage/coupan/coupan.phtml"/>
+            </block>
+        </reference>
+    </checkout_onepage_index>
+    <onestepcheckout_onepage_paymentmethod>
+        <block type="checkout/onepage_payment_methods" name="root" output="toHtml" template="onestepcheckout/onepage/payment/methods.phtml">
+            <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+        </block>
+    </onestepcheckout_onepage_paymentmethod>
+    <onestepcheckout_onepage_shippingmethod>
+        <block type="onestepcheckout/onepage_shipping_method_available" name="root" output="toHtml" template="onestepcheckout/onepage/shipping_method/available.phtml"/>
+    </onestepcheckout_onepage_shippingmethod>
+    <onestepcheckout_onepage_additional>
+        <block type="onestepcheckout/onepage" name="root" output="toHtml" template="onestepcheckout/onepage/shipping_method/additional.phtml">
+            <action method="setDontDisplayContainer"><param>1</param></action>
+        </block>
+    </onestepcheckout_onepage_additional>
+    <onestepcheckout_onepage_review>
+        <block type="checkout/onepage_review_info" name="root" output="toHtml" template="onestepcheckout/onepage/review/info.phtml">
+            <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>onestepcheckout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>onestepcheckout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>onestepcheckout/onepage/review/item.phtml</template></action>
+            <block type="checkout/cart_totals" name="onestepcheckout.onepage.review.info.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
+        </block>
+    </onestepcheckout_onepage_review>
+    <onestepcheckout_email_comment>
+        <block type="onestepcheckout/email_info" name="emailcomment" template="onestepcheckout/onepage/email/comment.phtml">
+        </block>
+    </onestepcheckout_email_comment>
+</layout>

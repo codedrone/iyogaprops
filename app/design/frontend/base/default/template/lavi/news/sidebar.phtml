@@ -1,0 +1,52 @@
+<?php
+/**
+ * SAGIPL
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * 
+ * @category   	SAGIPL
+ * @package	Lavi_News
+ * @copyright  	Copyright (c) 2014 SAGIPL. (http://www.sagipl.com/)
+ * @license	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Free Shipping Offer Message
+ *
+ * @category	SAGIPL
+ * @package	Lavi_News
+ * @author	Navneet <navneet.kshk@gmail.com>
+ */
+?>
+<div id="news_list_messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="page-title">
+    <h1><?php echo Mage::helper('lavi_news')->__('News') ?></h1>
+</div>
+<marquee behavior="scroll" direction="up" height="150" scrollamount="2" onmouseover="this.stop()" onmouseout="this.start()">
+<div class="news_list_view">
+    <?php foreach ($this->getCollection() as $newsItem): ?>
+        <div id="item_<?php echo $newsItem->getId() ?>" class="news_list_item">
+            <h2>
+                <a href="<?php echo $this->getItemUrl($newsItem) ?>">
+                    <?php echo $this->escapeHtml($newsItem->getTitle()) ?>
+                </a>
+            </h2>
+
+            <div class="news_item_subtitle">
+                <?php echo $this->formatDate($newsItem->getTimePublished(), 'medium') ?> |
+                <?php echo $this->escapeHtml($newsItem->getAuthor()) ?>
+            </div>
+
+            <?php if ($imageUrl = $this->getImageUrl($newsItem, 100)): ?>
+               <p><img src="<?php echo $imageUrl ?>" alt="<?php echo $this->escapeHtml($newsItem->getTitle()); ?>" /></p>
+            <?php endif; ?>
+        </div><br /><br />
+    <?php endforeach; ?>
+</div>
+</marquee>
+<?php echo $this->getPager() ?>

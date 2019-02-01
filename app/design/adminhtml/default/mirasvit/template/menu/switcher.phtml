@@ -1,0 +1,18 @@
+<?php if ($collection = $this->getMenuCollection()): ?>
+<p class="switcher"><label for="menu_switcher"><?php echo $this->__('Choose Menu:') ?></label>
+<select name="menu_switcher" id="menu_switcher" onchange="return switchMenu(this);">
+<?php foreach ($collection as $menu): ?>
+    <option value="<?php echo $this->escapeHtml($menu->getId()) ?>"
+        <?php if($this->getMenuId() == $menu->getId()): ?> selected="selected"<?php endif ?>><?php echo $this->escapeHtml($menu->getName()) ?>
+    </option>
+<?php endforeach ?>
+</select>
+<?php echo $this->getHintHtml() ?>
+</p>
+<script type="text/javascript">
+    function switchMenu(obj) {
+        var menuParam = obj.value ? 'menu_id/' + obj.value + '/' : '';
+        setLocation('<?php echo $this->getSwitchUrl() ?>' + menuParam);
+    }
+</script>
+<?php endif; ?>

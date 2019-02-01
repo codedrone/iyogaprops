@@ -1,0 +1,22 @@
+<?php $post = $this->getPost(); ?>
+<div class="block block-blog">
+    <div class="block-title">
+        <strong><span><?php echo Mage::getStoreConfig('blog/blog/title'); ?></span></strong>
+    </div>
+    <div class="block-content">
+        <?php if ($posts = $this->getRecent()): ?>
+            <div class="menu-recent">
+                <h5><?php echo Mage::helper('blog')->__('Recent Posts'); ?></h5>
+                <ul>
+                    <?php foreach ($posts as $post): ?>
+                        <li><a href="<?php echo $post->getAddress(); ?>" ><?php echo $post->getTitle(); ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+
+        
+
+       
+    </div>
+</div>

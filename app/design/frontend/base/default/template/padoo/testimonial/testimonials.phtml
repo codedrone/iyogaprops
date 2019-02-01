@@ -1,0 +1,68 @@
+<?php
+/**
+ * Padoo Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0).
+ * It is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you are unable to obtain it through the world-wide-web, please send
+ * an email to info@padoo.com so we can send you a copy immediately.
+ *
+ * @category   Padoo
+ * @package    Padoo_Testimonial
+ * @copyright  Copyright (c) 2010-2012 Padoo Co. (http://padoo.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * template of testimonials
+ *
+ * @category   Padoo
+ * @package    Padoo_Testimonial
+ * @author     
+ */
+
+/**
+ * @var $this Padoo_Testimonial_Block_Testimonial
+ */
+ $storeId = Mage::app()->getStore(true)->getId();
+?>
+<div class="testimonials-container">
+	<div class="title-box">
+		<h1 class="title"><?php echo $this->__("Testimonials"); ?></h1>
+		<a href="<?php echo $this->getUrl('testimonials/submit/index') ?>"><?php echo $this->__("Submit your testimonial"); ?></a>
+	</div>
+    <div class="testimonials">
+    <?php $testimonials = $this->getTestimonials(); ?>
+    <?php $i = 0;?>
+    <?php if ($testimonials->count() > 0): ?>
+    <?php foreach ($testimonials as $testimonial): ?>
+		<?php 
+			$stores 	= $testimonial->getStoreId();
+			if(strpos($stores,$storeId) !== false || strpos($stores,0) !== false || $stores == 0){
+		?>
+		<div id="testimonial_<?php echo $i++ ?>">
+			<?php if ($testimonial->getTestimonialImg()): ?>
+			<div class="testimonial-image"><img alt="<?php echo $testimonial->getTestimonialName(); ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . $testimonial->getTestimonialImg() ?>" width="130" /></div>
+			<?php endif; ?>
+			<div class="testimonial-text">
+				<?php echo $testimonial->getTestimonialText(); ?>
+				<div class="author">
+					<?php if(Mage::getStoreConfig('padoo_testimonial/general/display_email')): ?>
+					<p><?php echo $testimonial->getTestimonialEmail() ?></p>
+					<?php endif; ?>
+					<?php if(Mage::getStoreConfig('padoo_testimonial/general/display_datetime')): ?>
+						<?php echo $testimonial->getTestimonialDate() ?> - 
+					<?php endif; ?>
+					<?php echo $testimonial->getTestimonialName(); ?>
+				</div>
+			</div>
+		</div>
+    <?php } ?>
+    <?php $i++;endforeach; ?>
+    <?php endif;?>
+    </div>
+	<?php echo $this->getPagerHtml() ?>
+</div>

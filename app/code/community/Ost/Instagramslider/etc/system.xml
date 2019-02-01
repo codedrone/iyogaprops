@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+        <instagramslider translate="label" module="instagramslider">
+            <label>Instagramslider</label>
+            <sort_order>100</sort_order>
+        </instagramslider>
+    </tabs>
+	<sections>
+		<instagramslider translate="label" module="instagramslider">
+            <label>Instagramslider Options</label>
+            <tab>instagramslider</tab>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+		 <groups>
+                <instagramslider_settings translate="label" module="instagramslider">
+                    <label>Instagramslider Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1000</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+ 
+                    <fields>
+                        <instagramslider_title translate="label">
+                            <label>Title</label>
+                            <comment>This title display at front end as module name.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instagramslider_title>
+                        <instagramslider_userid translate="label">
+                            <label>User Id</label>
+                            <comment>User Id of Instagram</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instagramslider_userid>
+                         <instagramslider_token translate="label">
+                            <label>Access Token</label>
+                            <comment>Access Token of Instagram</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instagramslider_token>
+                         <instagramslider_dimension translate="label">
+                            <label>Dimension</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>instagramslider/dimension</source_model>
+                        </instagramslider_dimension>
+                        <instagramslider_play translate="label">
+                            <label>Auto Play</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </instagramslider_play>
+                         <instagramslider_play_speed translate="label">
+                            <label>Auto Play Speed</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instagramslider_play_speed>
+                        <instagramslider_navigation translate="label">
+                            <label>Navigation</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </instagramslider_navigation>
+                         <instagramslider_pagination translate="label">
+                            <label>Pagination</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </instagramslider_pagination>
+                        <instagramslider_rewind translate="label">
+                            <label>Rewind Nav</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </instagramslider_rewind>
+                        <instagramslider_item translate="label">
+                            <label>No. Item to show</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instagramslider_item>
+                        <instagramslider_status translate="label">
+                            <label>Status</label>
+                            <comment>This needs to be enable to show slider at front end.</comment>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_Enabledisable</source_model>
+                        </instagramslider_status>
+                      <!--  <instagramslider_animationin translate="label">
+                            <label>Animation In</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>instagramslider/Animationout</source_model>
+                        </instagramslider_animationin>
+                        <instagramslider_animationout translate="label">
+                            <label>Animation In</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>instagramslider/Animationin</source_model>
+                        </instagramslider_animationout>-->
+                         <instagramslider_margin translate="label">
+                            <label>Margin</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instagramslider_margin>
+                    </fields>
+                </instagramslider_settings>
+            </groups>
+        </instagramslider>
+    </sections>
+</config>

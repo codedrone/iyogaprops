@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<widgets>
+    <menu_menu type="menu/widget_menu">
+        <name>Menu</name>
+        <description type="desc">Adds a menu</description>
+        <parameters>
+            <menu_code translate="label description">
+                <visible>1</visible>
+                <label>Menu Code</label>
+                <type>text</type>
+            </menu_code>
+        </parameters>
+    </menu_menu>
+</widgets>

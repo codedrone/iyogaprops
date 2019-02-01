@@ -1,0 +1,76 @@
+<?php
+/**
+ * Padoo Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0).
+ * It is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you are unable to obtain it through the world-wide-web, please send
+ * an email to info@padoo.com so we can send you a copy immediately.
+ *
+ * @category   Padoo
+ * @package    Padoo_Testimonial
+ * @copyright  Copyright (c) 2010-2012 Padoo Co. (http://padoo.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * template of testimonials
+ *
+ * @category   Padoo
+ * @package    Padoo_Testimonial
+ * @author     
+ */
+
+/**
+ * @var $this Padoo_Testimonial_Block_Testimonial
+ */
+ $storeId = Mage::app()->getStore(true)->getId();
+?>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/padoo/jquery.bxslider.js')?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/padoo/jquery.bxslider.css')?>" media="all" />
+<?php $testimonials = $this->getTestimonials(); ?>
+<div class="testimonials-container slider">
+	<ul class="testimonials-slider">
+		<?php $i=0;foreach ($testimonials as $testimonial): ?>
+		<?php 
+			$stores 	= $testimonial->getStoreId();
+			if(strpos($stores,$storeId) !== false || strpos($stores,0) !== false || $stores == 0){
+		?>
+		<li>
+			<div class="testimonial-item" id="testimonial_<?php echo $i++ ?>">
+				  <div class="testimonial-text">
+					<blockquote> 
+						<?php 
+							$length = 450;
+							$des = $this->stripTags($testimonial->getTestimonialText()); 
+							$des = strlen($des) > $length ? substr($des,0, $length) .' ...' : $des;
+							echo $des;
+						?>
+					</blockquote>
+					<figure>
+					<?php if ($testimonial->getTestimonialImg()): ?>
+						<img alt="<?php echo $testimonial->getTestimonialName(); ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . $testimonial->getTestimonialImg() ?>" />
+					<?php endif; ?>
+					</figure>
+					<div class="author"><?php echo $testimonial->getTestimonialDate() ?> - <?php echo $testimonial->getTestimonialName(); ?></div>
+				</div>
+			</div>
+		</li>
+		<?php } ?>
+		<?php $i++;endforeach; ?>
+	</ul>
+</div>
+<script>
+jQuery(document).ready(function(){
+	jQuery('.testimonials-slider').bxSlider({
+	  minSlides: 1,
+	  maxSlides: 1,
+	  slideWidth: 500,
+	  auto: true,
+	  autoControls: true
+	});
+});
+</script>

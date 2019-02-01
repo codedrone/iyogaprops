@@ -1,0 +1,31 @@
+<div class="block block-news">
+	<div class="block-title">
+		<strong><?php echo $this->__('News Blog')?></strong>
+	</div>
+	<div class="block-content">
+		<?php $now = now();?>
+		<?php $news = Mage::getModel('news/news')->getCollection()->addFieldToFilter('status', '1')->addFieldToFilter('dateto',array('gteq'=>$now))
+					->setOrder('datefrom','desc');
+?>
+		<?php if(count($news)>0) :?>
+		<?php $news->getSelect()->limit(5);?>
+		
+		<ul>
+				<?php foreach($news as $news) :?>
+		
+			
+			<li>
+				<a href="<?php echo $this->getUrl('news/detalle', array('id' => $news->getId().'/'.$news->getAmigable().'.html')) ?>"><span ><?php echo $news->getTitle();?></span></a>
+			</li>
+			
+		
+		<?php endforeach ?>
+		</ul>
+		<?php $allurl = $this->getUrl('news/listado')?>
+		<p class="empty"><a href="<?php echo $allurl?>"><?php echo $this->__('View all')?></a></p>
+		<?php else : ?>
+			<p class="empty"><?php echo $this->__('You have no items in your quote.')?></p>
+		<?php endif;?>
+	</div>
+	
+</div>

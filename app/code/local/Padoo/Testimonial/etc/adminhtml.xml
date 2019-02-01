@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <padoo_testimonial translate="title" module="padoo_testimonial">
+                                        <title>Testimonial</title>
+                                        <sort_order>50</sort_order>
+                                    </padoo_testimonial>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+ </config>

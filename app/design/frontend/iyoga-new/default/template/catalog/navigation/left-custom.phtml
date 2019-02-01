@@ -1,0 +1,25 @@
+
+
+<div class="left-navi">
+<ul id="left-nav" class="">
+    
+  <?php  $obj = new Mage_Catalog_Block_Navigation();
+$store_cats = $obj->getStoreCategories();
+$current_cat  = $obj->getCurrentCategory();
+$current_cat = (is_object($current_cat) ? $current_cat->getName() : '');
+foreach ($store_cats as $cat) {
+ if ($cat->getName() == $current_cat) {
+  echo '<li class="current"><a href="'.$this->getCategoryUrl($cat).'">'.$cat->getName()."</a>\n<ul>\n";
+   foreach ($obj->getCurrentChildCategories() as $subcat)
+      {    
+        echo '<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="'.$this->getCategoryUrl($subcat).'">'.$subcat->getName()."</a></li>\n";
+  }   
+       echo "</ul>\n</li>\n";
+  } else {   
+echo '<li><a href="'.$this->getCategoryUrl($cat).'">'.$cat->getName()."</a></li>\n";
+  }
+} 
+?>
+</ul>
+</div>
+
